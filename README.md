@@ -1,5 +1,5 @@
 # Camp2Code
-hallo von Tobias
+
 ## Projekt Phase 1
 
 ### Inhalt:
@@ -20,4 +20,3 @@ hallo von Tobias
     - dash_example_4_dbc_with_callbacks.py
 - Ordner: additional_material (Zusatzmaterial für Wiederholungen/Erklärungen etc.)
 
-Test änderung Tobias
