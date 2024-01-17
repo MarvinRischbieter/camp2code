@@ -1,6 +1,5 @@
-# course_functions.py
-
-from basecar import drive, stop, measure_distance, soniccar
+from basecar import drive, stop
+from sonic_car import get_distance_to_obstacle
 import time
 
 def drive_until_obstacle(max_distance=30, speed=20, direction=1):
@@ -10,7 +9,7 @@ def drive_until_obstacle(max_distance=30, speed=20, direction=1):
         (max_distance(integer), speed(integer), direction = -1 Rückwerts 0 leerlauf 1 vorwärts) 
     '''
     while True:
-        distance_to_obstacle = measure_distance()
+        distance_to_obstacle = get_distance_to_obstacle()
 
         if distance_to_obstacle <= max_distance:
             print("Hindernis erkannt! Stopping...")
@@ -19,7 +18,6 @@ def drive_until_obstacle(max_distance=30, speed=20, direction=1):
 
         drive(speed, direction)
         time.sleep(0.1)
-
 
 if __name__ == "__main__":
     # Fahrparcours 3 durchführen (vorwärtsfahren, bis ein Hindernis erkannt wird)
