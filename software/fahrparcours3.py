@@ -1,9 +1,14 @@
 # course_functions.py
 
-from basecar import drive, stop, measure_distance
+from basecar import drive, stop, measure_distance, soniccar
 import time
 
 def drive_until_obstacle(max_distance=30, speed=20, direction=1):
+    '''Drive Until an Obstacle is spotted by the SonicCar Sensor
+
+    Args:
+        (max_distance(integer), speed(integer), direction = -1 Rückwerts 0 leerlauf 1 vorwärts) 
+    '''
     while True:
         distance_to_obstacle = measure_distance()
 
