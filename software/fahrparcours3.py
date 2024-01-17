@@ -2,7 +2,7 @@ from basecar import *
 from sonic_car import *
 import time
 
-def drive_until_obstacle(sc = SonicCar, max_distance=30, speed=50, direction=1):
+def drive_until_obstacle(sc = SonicCar, min_distance=20, max_distance=50, speed_min=20, speed_max=50, direction=1):
     '''Drive Until an Obstacle is spotted by the SonicCar Sensor
 
     Args:
@@ -14,11 +14,18 @@ def drive_until_obstacle(sc = SonicCar, max_distance=30, speed=50, direction=1):
         distance_to_obstacle = sc.get_distance_to_obstacle()
         print (f"Distanz:{distance_to_obstacle}")
 
-        if distance_to_obstacle <= max_distance:
+        if distance_to_obstacle <= min_distance:
             print("Hindernis erkannt! Stopping...")
             sc.stop()
             break
-        sc.steering_angle = 90
-        sc.drive(speed, direction)
-        time.sleep(0.5)
+        if distance_to_obstacle <= max_distance or distance_to_obstacle == 1000 :
+            print("Hindernis erkannt! langsamer...")
+            sc.steering_angle = 90
+            sc.drive(speed_min, direction)
+            time.sleep(0.5)
+            continue
+        else:
+            sc.steering_angle = 90
+            sc.drive(speed_max, direction)
+            time.sleep(0.5)
 

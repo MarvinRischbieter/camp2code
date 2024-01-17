@@ -21,10 +21,12 @@ def main():
             p= input("Bitte wählen Sie ein Fahrprogramm : ")
             programm = int(p)
             if programm <= 0 or programm > 7:
+                print("Bitte 5einen nummerischen Wert im Wertebereich eingeben")
+                time.sleep(2)
                 continue
         except:     
             print("Bitte 5einen nummerischen Wert im Wertebereich eingeben")
-            time.sleep(5)
+            time.sleep(2)
             continue
         else:
             if programm == 1:
@@ -85,7 +87,7 @@ def main():
                 fahrparcours_4(sc)
             else:
                 print("Goodby")
-                time.sleep(5)
+                time.sleep(2)
                 ausführen=False
 
     

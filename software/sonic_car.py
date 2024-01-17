@@ -12,6 +12,8 @@ class SonicCar(BaseCar):
         distance = self.usm.distance()
         if distance >= 0: 
             return distance
+        elif distance == -2:
+            return 300
         else:
             return 1000
 
