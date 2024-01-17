@@ -36,6 +36,7 @@ class BaseCar(object):
 
     @speed.setter
     def speed(self, value):
+        self.bw.speed = value
         self._speed = value
         
     @property
@@ -59,20 +60,5 @@ class BaseCar(object):
             self.stop()
 
     def stop(self):
-        self.bw.stop()
-    
-      
-    def steer(self,Winkel):
-        print('Drehung')
-        self.fw.turn(Winkel)
-      
-    def drive_fw(self,speed):
-        print('fahren')
-        self.bw.speed = speed
-        self.bw.forward()
-    
-    def drive_stop(self):
-        print('anhalten')
-        self.bw.stop()  
-        
+        self.bw.stop()    
     
