@@ -8,16 +8,19 @@ class BaseCar(object):
         self._steering_angle = 90
         self._speed = 0
         self._direction = 0
+        
         try:
             with open("config.json", "r") as f:
                 data = json.load(f)
                 self.turning_offset = data["turning_offset"]
                 self.forward_A = data["forward_A"]
                 self.forward_B = data["forward_B"]
+                self.timeout_sonic = data["timeout_sonic"]
                 print("Daten in config.json:")
                 print(f" - Turning Offset: {self.turning_offset}")
                 print(f" - Forward A: {self.forward_A}")
                 print(f" - Forward B: {self.forward_B}")
+                print(f" - Forward B: {self.timeout_sonic}")
         except:
             print("Fehler beim einlesen der config.json")
         else:
@@ -36,7 +39,7 @@ class BaseCar(object):
     def steering_angle(self, value:int):
         """Setter Function "steering_angle" sends the angle to the vehicle and sets the variable
         Args:
-            (integer which represents the steering angle, Value between 45 and 135 are allowed )
+            (integer which represents the steering angle:[45..135])
         """  
         self._steering_angle = self.fw.turn(value)
     
@@ -52,7 +55,7 @@ class BaseCar(object):
     def speed(self, value):
         """Setter Function "speed" sends the speed to the vehicle and sets the variable
         Args:
-            (integer which represents the speed. Value between 0 and 100 are allowed)
+            (integer which represents the speed: [0..100])
         """  
         if value > 100 : value = 100
         elif value < 0 : value = 0
