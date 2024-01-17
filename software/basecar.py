@@ -1,3 +1,6 @@
+"""Class BaseCar: Class to control vehicle regarding speed, direction and steering angle
+                   Sensors are not part of this class
+"""
 from basisklassen import  *
 
 class BaseCar(object):
@@ -21,44 +24,74 @@ class BaseCar(object):
             self.fw = FrontWheels(self.turning_offset)
             self.bw = BackWheels(self.forward_A,self.forward_B)
             
-            
     @property
-    def steering_angle(self):  
+    def steering_angle(self):
+        """getter Function "steering_angle" returns the current steering angle
+        Args:
+            ()
+        """  
         return self._steering_angle
     
     @steering_angle.setter
-    def steering_angle(self, value):
+    def steering_angle(self, value:int):
+        """Setter Function "steering_angle" sends the angle to the vehicle and sets the variable
+        Args:
+            (integer which represents the steering angle, Value between 45 and 135 are allowed )
+        """  
         self._steering_angle = self.fw.turn(value)
     
     @property
     def speed(self):
+        """getter Function "speed" returns the current speed
+        Args:
+            ()
+        """  
         return self._speed
 
     @speed.setter
     def speed(self, value):
+        """Setter Function "speed" sends the speed to the vehicle and sets the variable
+        Args:
+            (integer which represents the speed. Value between 0 and 100 are allowed)
+        """  
+        if value > 100 : value = 100
+        elif value < 0 : value = 0
         self.bw.speed = value
         self._speed = value
         
     @property
     def direction(self):
+        """getter Function "direction" returns the current direction
+        Args:
+            ()
+        """  
         return self._direction
 
         
-    def drive(self, geschwindigkeit:int, drehrichtung: int):
-        if geschwindigkeit > 100 : geschwindigkeit = 100
-        elif geschwindigkeit < 0 : geschwindigkeit = 0
-        self.bw.speed = geschwindigkeit
+    def drive(self, speed:int, direction:int):
+        """Function "drive" sends the speed and direction to the vehicle and sets the variables accordingly
+        Args:
+            (speed as integer: [0..100], direction as integer [-1,1] )
+        """  
+        if speed > 100 : speed = 100
+        elif speed < 0 : speed = 0
+        self.bw.speed = speed
         self._speed = self.bw.speed
-        self._direction = drehrichtung
+        self._direction = direction
         print(f"Drehrichtung: {self._direction}")
         print(f"Speed: {self._speed}")
-        if drehrichtung > 0:
+        if direction > 0:
             self.bw.forward()
-        elif drehrichtung < 0:
+        elif direction < 0:
             self.bw.backward()
         else:
             self.stop()
 
     def stop(self):
-        self.bw.stop()    
+        """Function "stop" stops the vehicle and sets the variables accordingly
+        Args:
+            ()
+        """  
+        self.bw.stop()
+        self._speed = 0    
     
