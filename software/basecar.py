@@ -2,32 +2,26 @@ from basisklassen import  *
 
 class BaseCar(object):
     def __init__(self):
-        self.turning_offset = 35
-        self.forward_A = 0
-        self.forward_B = 0
         self._steering_angle = 90
         self._speed = 0
         self._direction = 0
-        '''        try:
-            with open("/home/pi/git/camp2code/software/config.json", "r") as f:
+        try:
+            with open("config.json", "r") as f:
                 data = json.load(f)
                 self.turning_offset = data["turning_offset"]
                 self.forward_A = data["forward_A"]
                 self.forward_B = data["forward_B"]
                 print("Daten in config.json:")
-                print(" - Turning Offset: ", turning_offset)
-                print(" - Forward A: ", forward_A)
-                print(" - Forward B: ", forward_B)
-                x =input('Weiter? Bitte eingabetaste')
+                print(f" - Turning Offset: {self.turning_offset}")
+                print(f" - Forward A: {self.forward_A}")
+                print(f" - Forward B: {self.forward_B}")
         except:
-            print("Keine geeignete Datei config.json gefunden!")
+            print("Fehler beim einlesen der config.json")
         else:
-        '''
-        self.fw = FrontWheels(self.turning_offset)
-        self.bw = BackWheels(self.forward_A,self.forward_B)
-        self.usm = Ultrasonic(timeout=0.15)
-        self.irm = Infrared()
-    
+            self.fw = FrontWheels(self.turning_offset)
+            self.bw = BackWheels(self.forward_A,self.forward_B)
+            
+            
     @property
     def steering_angle(self):  
         return self._steering_angle
@@ -81,9 +75,4 @@ class BaseCar(object):
         print('anhalten')
         self.bw.stop()  
         
-        
-            
-    # steering_angle: Setzen und Zugriff auf den Lenkwinkel (Property mit Setter)       
-    #@property 
-    #def steering_angle(self):
     
