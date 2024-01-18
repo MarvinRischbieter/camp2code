@@ -5,11 +5,6 @@ from basisklassen import  *
 from enum import Enum
 
 
-class Distance(Enum):
-    MAX_DISTANCE = 300
-    INF_DISTANCE = 1_000
-
-
 class Angle(Enum):
     MIN_ANGLE = 45
     STRAIGHT_AHEAD = 90
