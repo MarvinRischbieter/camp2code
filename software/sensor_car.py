@@ -1,5 +1,15 @@
 from basisklassen import  *
+from basecar import *
 import numpy as np
+
+
+lock = threading.Lock()
+lock_file = threading.Lock()
+
+class SonicCar(BaseCar):
+
+    def __init__(self):
+        super().__init__()
 
 irm = Infrared()
 
