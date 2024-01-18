@@ -5,6 +5,12 @@ from basisklassen import  *
 from enum import Enum
 
 
+class Angle(Enum):
+    MIN_ANGLE = 45
+    STRAIGHT_AHEAD = 90
+    MAX_ANGLE = 135
+
+
 class Direction(Enum):
     FORWARD = 1
     STANDSTILL = 0
