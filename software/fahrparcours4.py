@@ -3,9 +3,9 @@ from fahrparcours3 import *
 
 US_THRESHOLD = 40
 
-def fahrparcours_4(sc = SonicCar):
+def fahrparcours_4(sc = SonicCar()):
     print("Fahrparcours 4 startet")
-    sc = SonicCar()
+    # sc = SonicCar()
     sc.steering_angle = 90
 
     # Threshold Ultraschall zu Distance:
@@ -28,5 +28,3 @@ def fahrparcours_4(sc = SonicCar):
             time.sleep(1)
         sc.stop()
         sc.steering_angle = 90 # Lenkung wieder gerade
-            
-    

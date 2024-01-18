@@ -2,7 +2,7 @@ from basecar import *
 from sonic_car import *
 import time
 
-def drive_until_obstacle(sc = SonicCar, min_distance=20, max_distance=50, speed_min=20, speed_max=50, direction=1):
+def drive_until_obstacle(sc = SonicCar(), min_distance=20, max_distance=50, speed_min=20, speed_max=50, direction=1):
     '''Drive Until an Obstacle is spotted by the SonicCar Sensor
 
     Args:
@@ -28,4 +28,3 @@ def drive_until_obstacle(sc = SonicCar, min_distance=20, max_distance=50, speed_
             sc.steering_angle = 90
             sc.drive(speed_max, direction)
             time.sleep(0.5)
-
