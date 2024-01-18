@@ -15,7 +15,7 @@ class SonicCar(BaseCar):
 
     def __init__(self):
         super().__init__()
-        self._usm = Ultrasonic(self.timeout_sonic)
+        self._usm = Ultrasonic()
         self._lock = threading.Lock()
 
     def get_distance_to_obstacle(self):
@@ -62,15 +62,6 @@ class SonicCar(BaseCar):
             return t
         return
 
-    def drive_n_seconds(self, speed, direction, angle=None, n_sec=1):
-        t = RecordingThread(self)
-        t.start()
-        self.steering_angle = angle if angle is not None else 90
-        super().drive(speed, direction)
-        time.sleep(n_sec)
-        t.stop_record()
-        t.join()
-
 
 class RecordingThread(threading.Thread):
     def __init__(self, sc, command_data=None):
@@ -116,37 +107,81 @@ def main():
     sc = SonicCar()
 
     # Drive with data recording
-    t = sc.drive(20, Direction.FORWARD.value, 90)
+    t = sc.drive(20, Direction.FORWARD.value, Angle.STRAIGHT_AHEAD.value)
     time.sleep(3)
     if t:
         t.stop_record()
         t.join()
 
     # Stop with data recording
-    t = sc.drive(20, Direction.STANDSTILL.value, 90)
+    t = sc.drive(20, Direction.STANDSTILL.value, Angle.STRAIGHT_AHEAD.value)
     time.sleep(1)
     if t:
         t.stop_record()
         t.join()
-    
+
     #sc.drive_n_seconds(20, 0, n_sec=2)
 
-def road_3():
+def road_test():
     sc = SonicCar()
 
-    # Drive with data recording
-    t = sc.drive(20, Direction.FORWARD.value, 90)
+    t = sc.drive(20, Direction.FORWARD.value, Angle.STRAIGHT_AHEAD.value)
+    time.sleep(3)
+    if t:
+        t.stop_record()
+        t.join()
+
+    t = sc.drive(20, Direction.FORWARD.value, Angle.MIN_ANGLE.value)
+    time.sleep(3)
+    if t:
+        t.stop_record()
+        t.join()
+
+    t = sc.drive(20, Direction.FORWARD.value, Angle.MAX_ANGLE.value)
     time.sleep(3)
     if t:
         t.stop_record()
         t.join()
 
     # Stop with data recording
-    t = sc.drive(20, Direction.STANDSTILL.value, 90)
+    t = sc.drive(20, Direction.STANDSTILL.value, Angle.STRAIGHT_AHEAD.value)
     time.sleep(1)
     if t:
         t.stop_record()
         t.join()
 
+
+def road_3():
+    min_distance=20
+    max_distance=50
+
+    sc = SonicCar()
+    t = sc.drive(Speed.STOP_SPEED.value, Direction.FORWARD.value, Angle.STRAIGHT_AHEAD.value)
+
+    while True:
+        distance_to_obstacle = sc.get_distance_to_obstacle()
+        print(f"distance_to_obstacle: {distance_to_obstacle}")
+
+        if distance_to_obstacle <= min_distance:
+            print("Hindernis erkannt! Stopping...")
+            sc.drive(Speed.STOP_SPEED.value, Direction.STANDSTILL.value, Angle.STRAIGHT_AHEAD.value, record_data=False)
+            break
+
+        if distance_to_obstacle <= max_distance:
+            print("Hindernis erkannt! langsamer...")
+            sc.drive(Speed.MIN_SPEED.value, Direction.FORWARD.value, Angle.STRAIGHT_AHEAD.value, record_data=False)
+        else:
+            print("Kein Hindernis erkannt! normal...")
+            sc.drive(Speed.NORMAL_SPEED.value, Direction.FORWARD.value, Angle.STRAIGHT_AHEAD.value, record_data=False)
+
+        time.sleep(.5)
+
+    if t:
+        t.stop_record()
+        t.join()
+
+
 if __name__ == '__main__':
-    main()
+    #main()
+    road_3()
+    #road_test()
