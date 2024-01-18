@@ -1,8 +1,14 @@
 """Class BaseCar: Class to control vehicle regarding speed, direction and steering angle
                    Sensors are not part of this class
 """
-from basisklassen import  *
 from enum import Enum
+
+from basisklassen import *
+
+
+class Distance(Enum):
+    MAX_DISTANCE = 300
+    INF_DISTANCE = 1_000
 
 
 class Angle(Enum):
@@ -29,7 +35,7 @@ class BaseCar(object):
         self._steering_angle = 90
         self._speed = 0
         self._direction = 0
-        
+
         try:
             with open("config.json", "r") as f:
                 data = json.load(f)
@@ -46,30 +52,30 @@ class BaseCar(object):
             print("Fehler beim einlesen der config.json")
         else:
             self.fw = FrontWheels(self.turning_offset)
-            self.bw = BackWheels(self.forward_A,self.forward_B)
-            
+            self.bw = BackWheels(self.forward_A, self.forward_B)
+
     @property
     def steering_angle(self):
         """getter Function "steering_angle" returns the current steering angle
         Args:
             ()
-        """  
+        """
         return self._steering_angle
-    
+
     @steering_angle.setter
-    def steering_angle(self, value:int):
+    def steering_angle(self, value: int):
         """Setter Function "steering_angle" sends the angle to the vehicle and sets the variable
         Args:
             (integer which represents the steering angle:[45..135])
-        """  
+        """
         self._steering_angle = self.fw.turn(value)
-    
+
     @property
     def speed(self):
         """getter Function "speed" returns the current speed
         Args:
             ()
-        """  
+        """
         return self._speed
 
     @speed.setter
@@ -77,28 +83,31 @@ class BaseCar(object):
         """Setter Function "speed" sends the speed to the vehicle and sets the variable
         Args:
             (integer which represents the speed: [0..100])
-        """  
-        if value > 100 : value = 100
-        elif value < 0 : value = 0
+        """
+        if value > 100:
+            value = 100
+        elif value < 0:
+            value = 0
         self.bw.speed = value
         self._speed = value
-        
+
     @property
     def direction(self):
         """getter Function "direction" returns the current direction
         Args:
             ()
-        """  
+        """
         return self._direction
 
-        
-    def drive(self, speed:int, direction:int):
+    def drive(self, speed: int, direction: int):
         """Function "drive" sends the speed and direction to the vehicle and sets the variables accordingly
         Args:
             (speed as integer: [0..100], direction as integer [-1,1] )
-        """  
-        if speed > 100 : speed = 100
-        elif speed < 0 : speed = 0
+        """
+        if speed > 100:
+            speed = 100
+        elif speed < 0:
+            speed = 0
         self.bw.speed = speed
         self._speed = self.bw.speed
         self._direction = direction
@@ -115,7 +124,6 @@ class BaseCar(object):
         """Function "stop" stops the vehicle and sets the variables accordingly
         Args:
             ()
-        """  
+        """
         self.bw.stop()
-        self._speed = 0    
-    
+        self._speed = 0
