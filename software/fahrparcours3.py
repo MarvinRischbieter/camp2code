@@ -9,7 +9,9 @@ def drive_until_obstacle(sc = SonicCar(), min_distance=20, max_distance=50, spee
         (max_distance(integer), speed(integer), direction = -1 Rückwerts 0 leerlauf 1 vorwärts) 
     '''
     #sc=SonicCar()
-    
+    print (f"Recording start")
+    t = RecordingThread(sc)
+    t.start()
     while True:
         distance_to_obstacle = sc.get_distance_to_obstacle()
         print (f"Distanz:{distance_to_obstacle}")
@@ -28,3 +30,6 @@ def drive_until_obstacle(sc = SonicCar(), min_distance=20, max_distance=50, spee
             sc.steering_angle = 90
             sc.drive(speed_max, direction)
             time.sleep(0.5)
+    print (f"Recording stop")
+    t.stop_record()
+    t.join()
