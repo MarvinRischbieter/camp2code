@@ -6,6 +6,7 @@ import json
 import pathlib
 
 lock = threading.Lock()
+lock_file = threading.Lock()
 
 class SonicCar(BaseCar):
 
@@ -56,8 +57,7 @@ class RecordingThread(threading.Thread):
         threading.Thread.__init__(self)
         self._sc = sc
         self._stop_record = False
-        date_str = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S.%f')
-        self._filename = f'{date_str}_data.json'
+        self._filename = f'data.json'
     
     def stop_record(self):
         self._stop_record = True
@@ -77,8 +77,13 @@ class RecordingThread(threading.Thread):
             time.sleep(.1)
 
         #print(f'Recording done')
-        old_records = None
-        with pathlib.Path(self._filename).open('r', encoding='utf8') as fp:
-            json.load(fp, old_records)
+        lock_file.acquire()
+        old_records = []
+        file = pathlib.Path(self._filename)
+        if file.exists() and file.stat().st_size > 0:
+            with pathlib.Path(self._filename).open('r', encoding='utf8') as fp:
+                data = json.load(fp)
+                old_records = data if data else old_records
         with pathlib.Path(self._filename).open('w', encoding='utf8') as fp:
             json.dump(old_records + data_recorded, fp, indent=2, default=str)
+        lock_file.release()
