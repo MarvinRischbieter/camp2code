@@ -2,6 +2,14 @@
                    Sensors are not part of this class
 """
 from basisklassen import  *
+from enum import Enum
+
+
+class Direction(Enum):
+    FORWARD = 1
+    STANDSTILL = 0
+    BACKWARD = -1
+
 
 class BaseCar(object):
     def __init__(self):
