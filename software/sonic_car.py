@@ -56,6 +56,8 @@ class RecordingThread(threading.Thread):
         threading.Thread.__init__(self)
         self._sc = sc
         self._stop_record = False
+        date_str = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S.%f')
+        self._filename = f'{date_str}_data.json'
     
     def stop_record(self):
         self._stop_record = True
@@ -72,9 +74,11 @@ class RecordingThread(threading.Thread):
                 'Angle': self._sc.steering_angle,
                 'Distance': self._sc.get_distance_to_obstacle(),
             })
-            time.sleep(.5)
+            time.sleep(.1)
 
         #print(f'Recording done')
-        date_str = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S.%f')
-        with pathlib.Path(f'{date_str}_data.json').open('w', encoding='utf8') as fp:
-            json.dump(data_recorded, fp, indent=2, default=str)
+        old_records = None
+        with pathlib.Path(self._filename).open('r', encoding='utf8') as fp:
+            json.load(fp, old_records)
+        with pathlib.Path(self._filename).open('w', encoding='utf8') as fp:
+            json.dump(old_records + data_recorded, fp, indent=2, default=str)
