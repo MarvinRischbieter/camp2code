@@ -34,7 +34,7 @@ def main():
             bc = BaseCar()
             sc = SonicCar()
             if programm == 1:
-                ##################### Test Base Car #########################
+                ##################### Test Base Car #########################     
                 bc.steering_angle = 45
                 print (bc.steering_angle)
                 time.sleep(2)
@@ -61,7 +61,16 @@ def main():
                 bc.stop()
             elif programm == 2:
                 ##################### Test Sonic Car #########################
-                sc.make_measures() # 100 Mal
+                sc.steering_angle = 45
+                print (sc.steering_angle)
+                time.sleep(2)
+                sc.steering_angle = 135
+                print (sc.steering_angle)
+                time.sleep(2)
+                sc.steering_angle = 90
+                print (sc.steering_angle)
+                time.sleep(2)
+                #sc.make_measures() # 100 Mal
                 #distance_obs = sc.get_distance_to_obstacle() # 1 Mal
                 #print(f'distance: {distance_obs}')
             elif programm == 3:
