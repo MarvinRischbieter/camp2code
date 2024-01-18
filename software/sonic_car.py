@@ -28,9 +28,6 @@ class SonicCar(BaseCar):
 
 
     def make_measures(self):
-        t = RecordingThread(self)
-        t.start()
-
         for i in range(100):
             distance = self.get_distance_to_obstacle()
             if distance == 1000:
@@ -39,17 +36,6 @@ class SonicCar(BaseCar):
                 unit = 'cm'
             print(f'{i}: {distance} {unit}')
             time.sleep(1)
-
-        t.stop_record()
-        t.join()
-
-
-    def drive(self, speed, direction):
-        t = RecordingThread(self)
-        t.start()
-        super().drive(speed, direction)
-        t.stop_record()
-        t.join()
 
 
 class RecordingThread(threading.Thread):
