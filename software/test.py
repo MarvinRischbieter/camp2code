@@ -1,10 +1,10 @@
 from basisklassen import  *
 from basecar import *
-from software.sonic_car import *
-from software.fahrparcours1 import *
-from software.fahrparcours2 import *
-from software.fahrparcours3 import * 
-from software.fahrparcours4 import *
+from sonic_car import *
+from fahrparcours1 import *
+from fahrparcours2 import *
+from fahrparcours3 import * 
+from fahrparcours4 import *
 import os
 import traceback
 import time
