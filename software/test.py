@@ -1,6 +1,6 @@
 from basisklassen import  *
 from basecar import *
-from software.sonic_car_tw import *
+from software.sonic_car import *
 from software.fahrparcours1 import *
 from software.fahrparcours2 import *
 from software.fahrparcours3 import * 
