@@ -1,8 +1,10 @@
 from basisklassen import  *
 from basecar import *
-from sonic_car import *
-from fahrparcours3 import * 
-from fahrparcours4 import *
+from software.sonic_car_tw import *
+from software.fahrparcours1 import *
+from software.fahrparcours2 import *
+from software.fahrparcours3 import * 
+from software.fahrparcours4 import *
 import os
 import traceback
 import time
@@ -29,9 +31,10 @@ def main():
             time.sleep(2)
             continue
         else:
+            bc = BaseCar()
+            sc = SonicCar()
             if programm == 1:
                 ##################### Test Base Car #########################
-                bc = BaseCar()
                 bc.steering_angle = 45
                 print (bc.steering_angle)
                 time.sleep(2)
@@ -56,37 +59,28 @@ def main():
                 bc.drive(-300, -1)
                 time.sleep(2)
                 bc.stop()
-                bc.drive(20,1)
-                time.sleep(2)
-                bc.stop()
-                print('Drehung nach links')
-                time.sleep(.5)
-                bc.steer(90)
-                bc.drive_stop()
             elif programm == 2:
                 ##################### Test Sonic Car #########################
-                sc = SonicCar()
                 sc.make_measures() # 100 Mal
                 #distance_obs = sc.get_distance_to_obstacle() # 1 Mal
                 #print(f'distance: {distance_obs}')
             elif programm == 3:
                 ###################### Test parcours1 #########################
-                print("Parcour fehlt noch")
+                fahrparcours1(bc)
                 time.sleep(5)
             elif programm == 4:
                 ###################### Test parcours2 #########################
-                print("Parcour fehlt noch")
+                fahrparcours2(bc)
                 time.sleep(5)
             elif programm == 5:
                 ##################### Test parcours3 #########################
-                sc = SonicCar()
                 drive_until_obstacle(sc)
             elif programm == 6:
                 ##################### Test parcours4 #########################
-                sc = SonicCar()
                 fahrparcours_4(sc)
             else:
                 print("Goodby")
+                bc.steering_angle = 90
                 time.sleep(2)
                 ausführen=False
 
