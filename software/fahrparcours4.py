@@ -5,7 +5,9 @@ US_THRESHOLD = 40
 
 def fahrparcours_4(sc = SonicCar):
     print("Fahrparcours 4 startet")
-    # sc = SonicCar()
+    t = RecordingThread(sc)
+    t.start()
+    
     sc.steering_angle = 90
 
     # Threshold Ultraschall zu Distance:
@@ -25,6 +27,7 @@ def fahrparcours_4(sc = SonicCar):
             parcour=False      
     sc.stop()
     sc.steering_angle = 90 # Lenkung wieder gerade
-
+    t.stop_record()
+    t.join()
 
        
