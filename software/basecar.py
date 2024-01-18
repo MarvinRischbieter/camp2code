@@ -2,6 +2,32 @@
                    Sensors are not part of this class
 """
 from basisklassen import  *
+from enum import Enum
+
+
+class Distance(Enum):
+    MAX_DISTANCE = 300
+    INF_DISTANCE = 1_000
+
+
+class Angle(Enum):
+    MIN_ANGLE = 45
+    STRAIGHT_AHEAD = 90
+    MAX_ANGLE = 135
+
+
+class Direction(Enum):
+    FORWARD = 1
+    STANDSTILL = 0
+    BACKWARD = -1
+
+
+class Speed(Enum):
+    STOP_SPEED = 0
+    MIN_SPEED = 20
+    NORMAL_SPEED = 50
+    MAX_SPEED = 100
+
 
 class BaseCar(object):
     def __init__(self):
