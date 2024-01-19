@@ -127,10 +127,10 @@ def road_3():
         
         if distance < reduce_speed_dist:
             print(f'distance={distance} < {reduce_speed_dist} --> reduced speed')
-            car.drive_with_params(Speed.SLOW_SPEED.value, Direction.FORWARD.value, Angle.STRAIGHT_AHEAD.value)
+            car.drive_with_params(Speed.VERY_SLOW_SPEED.value, Direction.FORWARD.value, Angle.STRAIGHT_AHEAD.value)
         else:
             print(f'distance={distance} >= {reduce_speed_dist} --> normal speed')
-            car.drive_with_params(Speed.NORMAL_SPEED.value, Direction.FORWARD.value, Angle.STRAIGHT_AHEAD.value)
+            car.drive_with_params(Speed.SLOW_SPEED.value, Direction.FORWARD.value, Angle.STRAIGHT_AHEAD.value)
 
         time.sleep(.1)
 
@@ -185,12 +185,12 @@ def road_4():
 
         if distance < reduce_speed_dist:
             print(f'distance={distance} < {reduce_speed_dist} --> reduced speed')
-            car.drive_with_params(Speed.SLOW_SPEED.value, Direction.FORWARD.value, Angle.STRAIGHT_AHEAD.value)
+            car.drive_with_params(Speed.VERY_SLOW_SPEED.value, Direction.FORWARD.value, Angle.STRAIGHT_AHEAD.value)
             if choice is not None:
                 choice = None
         else:
             print(f'distance={distance} >= {reduce_speed_dist} --> normal speed')
-            car.drive_with_params(Speed.NORMAL_SPEED.value, Direction.FORWARD.value, Angle.STRAIGHT_AHEAD.value)
+            car.drive_with_params(Speed.SLOW_SPEED.value, Direction.FORWARD.value, Angle.STRAIGHT_AHEAD.value)
             if choice is not None:
                 choice = None
 
