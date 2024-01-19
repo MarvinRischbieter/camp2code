@@ -1,7 +1,7 @@
 from basisklassen import  *
 from sonic_car import *
 import numpy as np
-
+from scipy.ndimage import interpolation
 
 #lock = threading.Lock()
 #lock_file = threading.Lock()
@@ -91,30 +91,27 @@ class SensorCar(SonicCar):
         return ir_messwerte
 
     def get_steering_angle(self):
-        ir_messwerte = get_ir_messung()
-        # -----------------
-        # METHODE 1 über Minimum im Array
-        # dort wo das Minimum ist = Position der Schw. Linie
-        # -----------------
-        print("Position der Spur (Minimum im Array:):")
-        location_min_IR_array_value = ir_messwerte.index(min(ir_messwerte))
-        print(location_min_IR_array_value)
+        # Array auf 15 Werte vergrößern
+        steering_interpol = np.linspace(-45, 45, num=30).round(2)
+        print("Interpolierter steering angle Methode 2")
+        print(steering_interpol)
 
-        IR_to_steering_x = [0, 1, 2, 3, 4]
-        IR_to_steering_y = [-45, -22.5, 0, 22.5, 45]
+        # Messwerte ebenfalls auf 15 Werte vergrößern, dazwischen interpolieren:
+        x = np.array(ir_messwerte)
+        i = 30
+        z = i / len(x)
+        ir_messwerte_interpol = (interpolation.zoom(x,z).round(2).tolist())
+        print("Interpolierte IR Messwerte 2")
+        print(ir_messwerte_interpol)
 
-        # steering angle aus look up table interpolieren:
+        print("Min Wert Methode 2")
+        print(min(ir_messwerte_interpol))
 
-        steering_angle_interp = np.interp(location_min_IR_array_value, IR_to_steering_x, IR_to_steering_y)
-        print("Interpolierter steering angle")
-        print(steering_angle_interp)
-        return steering_angle_interp
-    
-    
-'''
-print("Ausgabe Messwerte:")
-for i in range(5):
-    data = self.irm.get_average(10)
-    print('{} : {}'.format(i, data))
-    time.sleep(.2)
-'''    
+        print("Array Position des Min Werts Methode 2")
+        array_pos_min_wert2 = ir_messwerte_interpol.index(min(ir_messwerte_interpol))
+        print(array_pos_min_wert2)
+
+        steering_angle_interpol_2 = steering_interpol[array_pos_min_wert2]
+        print("Interpolierter steering angle Methode 2")
+        print(steering_angle_interpol_2)
+
