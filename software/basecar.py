@@ -47,7 +47,7 @@ class BaseCar(object):
                 print(f" - Turning Offset: {self.turning_offset}")
                 print(f" - Forward A: {self.forward_A}")
                 print(f" - Forward B: {self.forward_B}")
-                print(f" - Forward B: {self.timeout_sonic}")
+                print(f" - Timeout sonic: {self.timeout_sonic}")
         except:
             print("Fehler beim einlesen der config.json")
         else:
