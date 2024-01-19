@@ -25,7 +25,8 @@ class Direction(Enum):
 
 class Speed(Enum):
     STOP_SPEED = 0
-    SLOW_SPEED = 20
+    VERY_SLOW_SPEED = 20
+    SLOW_SPEED = 30
     NORMAL_SPEED = 50
     HIGH_SPEED = 80
     MAX_SPEED = 100
