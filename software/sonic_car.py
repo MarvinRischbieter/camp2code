@@ -33,10 +33,6 @@ class SonicCar(BaseCar):
             print(f'{i}: {distance} {unit}')
             time.sleep(1)
 
-    def drive_with_params(self, speed, direction, angle):
-        self.steering_angle = angle
-        super().drive(speed, direction)
-
 
 class RecordingThread(threading.Thread):
     def __init__(self, sc):

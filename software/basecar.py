@@ -25,16 +25,17 @@ class Direction(Enum):
 
 class Speed(Enum):
     STOP_SPEED = 0
-    MIN_SPEED = 20
+    SLOW_SPEED = 20
     NORMAL_SPEED = 50
+    HIGH_SPEED = 80
     MAX_SPEED = 100
 
 
 class BaseCar(object):
     def __init__(self):
-        self._steering_angle = 90
-        self._speed = 0
-        self._direction = 0
+        self._steering_angle = Angle.STRAIGHT_AHEAD.value
+        self._speed = Speed.STOP_SPEED.value
+        self._direction = Direction.STANDSTILL.value
 
         try:
             with open("config.json", "r") as f:
@@ -66,9 +67,15 @@ class BaseCar(object):
     def steering_angle(self, value: int):
         """Setter Function "steering_angle" sends the angle to the vehicle and sets the variable
         Args:
-            (integer which represents the steering angle:[45..135])
+            value: represents the steering angle as integer in [45..135]
         """
-        self._steering_angle = self.fw.turn(value)
+        if value < Angle.MIN_ANGLE.value:
+            angle_n = Angle.MIN_ANGLE.value
+        elif Angle.MAX_ANGLE.value < value:
+            angle_n = Angle.MAX_ANGLE.value
+        else:
+            angle_n = value
+        self._steering_angle = self.fw.turn(angle_n)
 
     @property
     def speed(self):
@@ -82,14 +89,16 @@ class BaseCar(object):
     def speed(self, value):
         """Setter Function "speed" sends the speed to the vehicle and sets the variable
         Args:
-            (integer which represents the speed: [0..100])
+            value: represents the speed as integer in [0..100]
         """
-        if value > 100:
-            value = 100
-        elif value < 0:
-            value = 0
-        self.bw.speed = value
-        self._speed = value
+        if value < Speed.STOP_SPEED.value:
+            value_n = Speed.STOP_SPEED.value
+        elif Speed.MAX_SPEED.value < value:
+            value_n = Speed.MAX_SPEED.value
+        else:
+            value_n = value
+        self.bw.speed = value_n
+        self._speed = self.bw.speed
 
     @property
     def direction(self):
@@ -102,28 +111,42 @@ class BaseCar(object):
     def drive(self, speed: int, direction: int):
         """Function "drive" sends the speed and direction to the vehicle and sets the variables accordingly
         Args:
-            (speed as integer: [0..100], direction as integer [-1,1] )
+            speed: speed of the car as integer [0..100]
+            direction: direction of the back wheels as integer[-1..1]
         """
-        if speed > 100:
-            speed = 100
-        elif speed < 0:
-            speed = 0
-        self.bw.speed = speed
-        self._speed = self.bw.speed
-        self._direction = direction
-        print(f"Drehrichtung: {self._direction}")
-        print(f"Speed: {self._speed}")
-        if direction > 0:
-            self.bw.forward()
-        elif direction < 0:
-            self.bw.backward()
+        self.speed = speed
+        if direction < Direction.BACKWARD.value:
+            value_n = Direction.BACKWARD.value
+        elif Direction.FORWARD.value < direction:
+            value_n = Direction.FORWARD.value
         else:
-            self.stop()
+            value_n = direction
+        self._direction = value_n
+        print(f"Drehrichtung: {self.direction}-{Direction(self.direction).name}")
+        print(f"Speed: {self.speed}")
+        if self.direction == Direction.FORWARD.value:
+            self.bw.forward()
+        elif self.direction == Direction.BACKWARD.value:
+            self.bw.backward()
+        elif self.direction == Direction.STANDSTILL.value:
+            self.bw.stop()
+        else:
+            raise Exception(f'Unsuported direction value {self.direction}')
 
     def stop(self):
         """Function "stop" stops the vehicle and sets the variables accordingly
         Args:
             ()
         """
-        self.bw.stop()
-        self._speed = 0
+        self.speed = Speed.STOP_SPEED.value
+        self.steering_angle = Angle.STRAIGHT_AHEAD.value
+
+    def drive_with_params(self, speed, direction, angle):
+        """ Drive with parameters and sets the properties accordingly
+        Args:
+            speed: speed of the car as integer [0..100]
+            direction: direction of the back wheels as integer[-1..1]
+            angle: steering angle of the front wheels as integer [45..135]
+        """
+        self.steering_angle = angle
+        self.drive(speed, direction)

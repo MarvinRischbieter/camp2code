@@ -169,7 +169,7 @@ def road_3():
 
         if distance_to_obstacle <= max_distance:
             print("Hindernis erkannt! langsamer...")
-            sc.drive(Speed.MIN_SPEED.value, Direction.FORWARD.value, Angle.STRAIGHT_AHEAD.value, record_data=False)
+            sc.drive(Speed.SLOW_SPEED.value, Direction.FORWARD.value, Angle.STRAIGHT_AHEAD.value, record_data=False)
         else:
             print("Kein Hindernis erkannt! normal...")
             sc.drive(Speed.NORMAL_SPEED.value, Direction.FORWARD.value, Angle.STRAIGHT_AHEAD.value, record_data=False)
