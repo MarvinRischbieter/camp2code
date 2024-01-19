@@ -76,7 +76,10 @@ class BaseCar(object):
             angle_n = Angle.MAX_ANGLE.value
         else:
             angle_n = value
+        if self.steering_angle == angle_n:
+            return
         self._steering_angle = self.fw.turn(angle_n)
+        time.sleep(.1)
 
     @property
     def speed(self):
@@ -98,6 +101,8 @@ class BaseCar(object):
             value_n = Speed.MAX_SPEED.value
         else:
             value_n = value
+        if self.speed == value_n:
+            return
         self.bw.speed = value_n
         self._speed = self.bw.speed
 
