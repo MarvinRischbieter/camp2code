@@ -1,10 +1,8 @@
-import datetime
-import pathlib
-import threading
 import time
 
 from basecar import Speed, Direction, Angle
 from sonic_car import SonicCar, RecordingThread
+
 
 def road_test():
     sc = SonicCar()
