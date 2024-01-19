@@ -13,8 +13,12 @@ class SensorCar(SonicCar):
         self.irm = Infrared()
         self.ir_calib = 0
 
+    def get_calibration(self):
+        return self.ir_calib
+    
 
-    def ir_calib(self):
+    def ir_calibriation(self):
+        #print("ircalib"
         #-------------------------
         # Benutzer Eingabe:
         #-------------------------
@@ -55,6 +59,7 @@ class SensorCar(SonicCar):
             else:
                 print("Abbruch durch , fahre fort...")
                 break
+
                 
     def read_calib(self):
         #-------------------------
@@ -86,32 +91,33 @@ class SensorCar(SonicCar):
         #-------------------------
         # Kalibrierung verrechnung (Abweichung zum Mittelwert)
         ir_messwerte = ((self.irm.get_average(3) - np.array(self.ir_calib)).round(2).tolist())
-        print("Avg Werte mit Kalirbrierung - Array ir_messwerte:")
-        print(ir_messwerte)
+        #print("Avg Werte mit Kalirbrierung - Array ir_messwerte:")
+        #print(ir_messwerte)
         return ir_messwerte
 
-    def get_steering_angle(self):
+    def get_steering_angle(self, ir_messung):
         # Array auf 15 Werte vergrößern
-        steering_interpol = np.linspace(-45, 45, num=30).round(2)
-        print("Interpolierter steering angle Methode 2")
-        print(steering_interpol)
+        steering_interpol = np.linspace(self.max_steer_angle_left, self.max_steer_angle_right, num=30).round(2)
+        #print("Interpolierter steering angle Methode 2")
+        #print(steering_interpol)
 
         # Messwerte ebenfalls auf 15 Werte vergrößern, dazwischen interpolieren:
-        x = np.array(ir_messwerte)
+        x = np.array(ir_messung)
         i = 30
         z = i / len(x)
         ir_messwerte_interpol = (interpolation.zoom(x,z).round(2).tolist())
-        print("Interpolierte IR Messwerte 2")
-        print(ir_messwerte_interpol)
+        #print("Interpolierte IR Messwerte 2")
+        #print(ir_messwerte_interpol)
 
-        print("Min Wert Methode 2")
-        print(min(ir_messwerte_interpol))
+        #print("Min Wert Methode 2")
+        #print(min(ir_messwerte_interpol))
 
-        print("Array Position des Min Werts Methode 2")
+        #print("Array Position des Min Werts Methode 2")
         array_pos_min_wert2 = ir_messwerte_interpol.index(min(ir_messwerte_interpol))
-        print(array_pos_min_wert2)
+        #print(array_pos_min_wert2)
 
         steering_angle_interpol_2 = steering_interpol[array_pos_min_wert2]
-        print("Interpolierter steering angle Methode 2")
-        print(steering_angle_interpol_2)
+        #print("Interpolierter steering angle Methode 2")
+        #print(steering_angle_interpol_2)
+        return steering_angle_interpol_2
 

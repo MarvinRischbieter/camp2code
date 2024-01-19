@@ -11,24 +11,24 @@ wiederholt werden.
     """
     print("Fahrparcours 2 kurve im Uhrzeigersinn vorwärts")
     #bc = BaseCar()
-    bc.steering_angle = 133
+    bc.steering_angle = bc.max_steer_angle_right
     bc.drive(50, 1)
     time.sleep(8)
     bc.stop()
     print("Fahrparcours 2 kurve im Uhrzeigersinn rückwärts")
-    bc.steering_angle = 133
+    bc.steering_angle = bc.max_steer_angle_right
     bc.drive(50, -1)
     time.sleep(8)
     bc.stop()
     time.sleep(2)
     print("Fahrparcours 2 kurve gegen den Uhrzeigersinn vorwärts")
     bc = BaseCar()
-    bc.steering_angle = 48
+    bc.steering_angle = bc.max_steer_angle_left
     bc.drive(50, 1)
     time.sleep(8)
     bc.stop()
     print("Fahrparcours 2 kurve gegen den Uhrzeigersinn rückwärts")
-    bc.steering_angle = 48
+    bc.steering_angle = bc.max_steer_angle_left
     bc.drive(50, -1)
     time.sleep(8)
     bc.stop()

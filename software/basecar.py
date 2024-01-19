@@ -45,6 +45,11 @@ class BaseCar(object):
                 self.forward_A = data["forward_A"]
                 self.forward_B = data["forward_B"]
                 self.timeout_sonic = data["timeout_sonic"]
+                self.max_steer_angle_left = data["max_steer_angle_left"]
+                self.max_steer_angle_right = data["max_steer_angle_right"]
+                self.speed_min = data["speed_min"]
+                self.speed_max = data["speed_max"]
+                self.speed_approach = data["speed_approach"]
                 print("Daten in config.json:")
                 print(f" - Turning Offset: {self.turning_offset}")
                 print(f" - Forward A: {self.forward_A}")
