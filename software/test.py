@@ -80,24 +80,27 @@ def main():
                 ###################### Test parcours1 #########################
                 bc = BaseCar()
                 fahrparcours1(bc)
-                time.sleep(5)
+                time.sleep(2)
             elif programm == 4:
                 ###################### Test parcours2 #########################
                 bc = BaseCar()
                 fahrparcours2(bc)
-                time.sleep(5)
+                time.sleep(2)
             elif programm == 5:
                 ##################### Test parcours3 #########################
                 sc = SonicCar()
                 drive_until_obstacle(sc)
+                time.sleep(2)
             elif programm == 6:
                 ##################### Test parcours4 #########################
                 sc = SonicCar()
                 fahrparcours_4(sc)
+                time.sleep(2)
             elif programm == 7:
                 ##################### Test parcours4 #########################
                 ir = SensorCar()
                 follow_line(ir)
+                time.sleep(2)
             else:
                 print("Goodby")
                 bc = BaseCar()

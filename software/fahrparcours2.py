@@ -1,6 +1,6 @@
 from basecar import  *
 
-def fahrparcours2(bc = BaseCar):
+def fahrparcours2(bc):
     """Das Auto fährt 1 Sekunde geradeaus,
 dann für 8 Sekunden mit maximalen Lenkwinkel im Uhrzeigersinn und stoppt.
 Dann soll das Auto diesen Fahrplan in umgekehrter Weise abfahren und an den Ausgangspunkt

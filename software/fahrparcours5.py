@@ -1,6 +1,11 @@
 from sensor_car import  *
+from record import *
 
 def follow_line(ir):
+    
+    t = RecordingThread(ir)
+    t.start()
+    
     ir.ir_calibriation()
     messung = ir.get_ir_messung()
     winkel = ir.get_steering_angle(messung)
@@ -20,5 +25,5 @@ def follow_line(ir):
             parcour=False  
     ir.stop()
     ir.steering_angle = 90 # Lenkung wieder gerade
-    #t.stop_record()
-    #t.join()
+    t.stop_record()
+    t.join()

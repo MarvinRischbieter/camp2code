@@ -1,8 +1,10 @@
 from basecar import *
 from sonic_car import *
+from record import *
+
 import time
 
-def drive_until_obstacle(sc = SonicCar(), min_distance=20, max_distance=50, speed_min=20, speed_max=50, direction=1):
+def drive_until_obstacle(sc, min_distance=20, max_distance=50, speed_min=20, speed_max=50, direction=1):
     '''Drive Until an Obstacle is spotted by the SonicCar Sensor
 
     Args:
@@ -12,6 +14,9 @@ def drive_until_obstacle(sc = SonicCar(), min_distance=20, max_distance=50, spee
     print (f"Recording start")
     t = RecordingThread(sc)
     t.start()
+    print (type(sc))
+    if isinstance(sc, SonicCar) :
+        print("true")
     while True:
         distance_to_obstacle = sc.get_distance_to_obstacle()
         print (f"Distanz:{distance_to_obstacle}")

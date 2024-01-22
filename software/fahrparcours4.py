@@ -1,9 +1,10 @@
 from sonic_car import *
 from fahrparcours3 import *
+from record import *
 
 US_THRESHOLD = 40
 
-def fahrparcours_4(sc = SonicCar):
+def fahrparcours_4(sc):
     print("Fahrparcours 4 startet")
     t = RecordingThread(sc)
     t.start()
