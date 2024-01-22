@@ -14,8 +14,6 @@ class SonicCar(BaseCar):
         self._lock.release()
         if distance >= 0:
             return distance
-        elif distance == -2:
-            return Distance.MAX_DISTANCE.value
         else:
             return Distance.INF_DISTANCE.value
 
