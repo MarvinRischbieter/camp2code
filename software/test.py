@@ -56,7 +56,7 @@ def main():
             elif programm == 5:
                 ##################### Test parcours3 #########################
                 ir = SensorCar()
-                follow_line(ir,-3, 5)
+                fahrparcours5(ir, -3, 5)
                 time.sleep(2)
             elif programm == 6:
                 ##################### Test parcours4 #########################
