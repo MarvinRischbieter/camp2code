@@ -24,12 +24,12 @@ card1 = dbc.Card(
     #dbc.CardImg(src="/home/pi/git/camp2code/dash/static/images/squirrel.png", top=True),
     dbc.CardBody(
         [
-            html.H4("Geschwindigkeit", className="card-title"),
+            html.H4("Max Geschwindigkeit", className="card-title"),
             html.P(
-                "Geschwindikeit des Fahrzeugs über die Zeit",
+                "Maximale Geschwindikeit des Fahrzeugs über die Zeit",
                 className="card-text",
             ),
-            dbc.Button("Geschwindigkeit", color="primary"),
+            html.P( " 100 ", id="v_max")
         ]
     ),
     style={"width": "14rem"},
@@ -39,12 +39,12 @@ card2 = dbc.Card(
     #dbc.CardImg(src="/home/pi/git/camp2code/dash/static/images/squirrel.png", top=True),
     dbc.CardBody(
         [
-            html.H4("Lenkwinkel", className="card-title"),
+            html.H4("Mittlere Geschwindigkeit", className="card-title"),
             html.P(
-                "Lenkwinkel des Fahrzeugs über die Zeit",
+                "Mittlere Geschwindikeit des Fahrzeugs",
                 className="card-text",
             ),
-            dbc.Button("Lenkwinkel", color="primary"),
+            html.P( " 100 ", id="v_mid")
         ]
     ),
     style={"width": "14rem"},
@@ -69,12 +69,19 @@ app.layout = html.Div(
 )
 
 @app.callback(Output(component_id='line_plot', component_property='figure'),
+              Output(component_id='v_max', component_property="children" ),
+              Output(component_id='v_mid', component_property="children" ),
               Input(component_id='Auswahl', component_property='value'))
 def graph_update(value_of_input_component):
     #print(f"Value of input component : {value_of_input_component}")
     df= pd.read_csv(value_of_input_component,';')
-    fig = px.line(df, x=df['Time'], y=df['Speed'])
-    return fig
+    #global max_geschwindigkeit = df
+    mid = df["Speed"].mean()
+    max = df["Speed"].max()
+    print(f"Mittlere Geschwindigkeit:  { mid}")
+    print(f"Max Geschwindigkeit:  { max}")
+    fig = px.line(df, x='Time', y=['Speed','Angle'])
+    return fig,max,mid
 
 if __name__ == '__main__':
     app.run_server(debug=True)
