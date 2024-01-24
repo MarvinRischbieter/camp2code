@@ -7,6 +7,7 @@ from fahrparcours2 import *
 from fahrparcours3 import * 
 from fahrparcours4 import *
 from fahrparcours5 import *
+from fahrparcours6 import *
 from fahrparcours7 import *
 import os
 import traceback
@@ -22,10 +23,10 @@ def main():
     ausführen=True
     while ausführen:
         try:
-            print("Fahrprogramme:\n   1: Parcours 1: vorwärts rückwärts\n   2: Parcours 2: Kreisfahrt\n   3: Parcours 3: Vorwärts bis Hinderniss \n   4: Parcours 4: Erkundungstour\n   5: Parcours 5: Linenverfolgung \n   6: Parcours 6: Linenverfolgung mit Hindernisserk.  \n   7: Abbruch ")
+            print("Fahrprogramme:\n   1: Parcours 1: vorwärts rückwärts\n   2: Parcours 2: Kreisfahrt\n   3: Parcours 3: Vorwärts bis Hinderniss \n   4: Parcours 4: Erkundungstour\n   5: Parcours 5: Linenverfolgung einfach\n   6: Parcours 6: Linienverfolgung komplex\n   7: Parcours 7: Linenverfolgung mit Hindernisserk.  \n   8: Print IR Werte\n   9: Abbruch ")
             p= input("Bitte wählen Sie ein Fahrprogramm : ")
             programm = int(p)
-            if programm <= 0 or programm > 7:
+            if programm <= 0 or programm > 9:
                 print("Bitte 5einen nummerischen Wert im Wertebereich eingeben")
                 time.sleep(2)
                 continue
@@ -56,13 +57,21 @@ def main():
             elif programm == 5:
                 ##################### Test parcours3 #########################
                 ir = SensorCar()
-                fahrparcours5(ir, -3, 5)
+                fahrparcours5(ir, -5, 15)
                 time.sleep(2)
             elif programm == 6:
                 ##################### Test parcours4 #########################
                 ir = SensorCar()
+                fahrparcours6(ir, -5, 15 )
+                time.sleep(2)
+            elif programm == 7:
+                ir = SensorCar()
                 follow_line_with_obstacle(ir)
                 time.sleep(2)
+            elif programm == 8:
+                ir = SensorCar()
+                initialisieren(ir)
+                print_ir_value(ir)
             else:
                 print("Goodby")
                 bc = BaseCar()
