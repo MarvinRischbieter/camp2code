@@ -24,3 +24,4 @@ ipython_config.py
 software/records/
 .idea/
 software/my_config.json
+venv/
