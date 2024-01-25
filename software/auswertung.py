@@ -22,16 +22,6 @@ def csv_dateien_einlesen():
     return csv_dateien
 
 c = csv_dateien_einlesen()
-menu="[\n"
-for d in c:
-    e= f"dbc.DropdownMenuItem(\"{d}\"),\n"
-    menu = menu+e
-menu = menu+"],"
-#print(menu)
-app = Dash(external_stylesheets=[dbc.themes.DARKLY])
-dropdown_items = [dbc.DropdownMenuItem(datei) 
-                      for datei in c ]
-print (dropdown_items)
 
 #################################################################
 # Definition der cards (1: Geschwindigkeit, 2 mittlere Gesch., ...)
@@ -96,8 +86,6 @@ app.layout = html.Div(
        
         html.H1(children='Auswertung der Fahrten'),
         dcc.Dropdown( c, c[0], id="Dateiauswahl", style ={'backgroundColor': "#ffffff",'color': '#660066'}  ),   
-        #dbc.DropdownMenu(label="Datei Auswahl",id="Dateiauswahl", dropdown_items),
-        #dbc.DropdownMenu(c),
         dbc.Row(
             [
             dbc.Col([card1], width="auto"),
