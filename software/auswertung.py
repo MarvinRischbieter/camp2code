@@ -80,7 +80,7 @@ card5 = dbc.Card(
     ),
     style={"width": "14rem"},
 )
-
+app = Dash(external_stylesheets=[dbc.themes.DARKLY])
 app.layout = html.Div(
     children=[
        
@@ -96,7 +96,7 @@ app.layout = html.Div(
             ] 
         ),        
         dcc.Graph(id='line_plot'), # Graph Basis
-        dcc.Graph(id='line_plot_dist') # Graph-Komponente 
+        dcc.Graph(id='line_plot_dist'), # Graph-Komponente 
     ]
 )
 
@@ -113,6 +113,8 @@ app.layout = html.Div(
               Input(component_id='Dateiauswahl', component_property='value'))
 def graph_update(value_of_input_component):
     df= pd.read_csv(value_of_input_component,';')  # Dataframe aus der CSV erstellen
+    Timestamp= df["Time"]
+    print(Timestamp)
     mid = df["Speed"].mean()
     max = df["Speed"].max()
     min = df["Speed"].min()
@@ -146,7 +148,7 @@ def graph_update(value_of_input_component):
               Input(component_id='Dateiauswahl', component_property='value'))
 def graph_update(value_of_input_component):
     df= pd.read_csv(value_of_input_component,';')  # Dataframe aus der CSV erstellen
-    fig2 = px.line(df, x='Time', y=['Distance',])
+    fig2 = px.line(df, x='Time', y=['Distance'])
     return fig2
 
 
