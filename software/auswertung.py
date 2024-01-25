@@ -87,7 +87,7 @@ app.layout = html.Div(
     children=[
        
         html.H1(children='Auswertung der Fahrten'),
-        dcc.Dropdown( c, c[0], id="Auswahl" ),   
+        dcc.Dropdown( c, c[0], id="Dateiauswahl" ),   
         #dbc.DropdownMenu(label="Datei Auswahl", children=c2),
         dbc.Row(
             [
@@ -112,7 +112,7 @@ app.layout = html.Div(
               Output(component_id='v_min', component_property="children" ),
               Output(component_id='v_time', component_property="children" ),
               Output(component_id='v_dist', component_property="children" ),
-              Input(component_id='Auswahl', component_property='value'))
+              Input(component_id='Dateiauswahl', component_property='value'))
 def graph_update(value_of_input_component):
     df= pd.read_csv(value_of_input_component,';')  # Dataframe aus der CSV erstellen
     mid = df["Speed"].mean()
