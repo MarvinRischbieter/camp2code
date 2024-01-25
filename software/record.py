@@ -3,8 +3,6 @@ import pathlib
 import threading
 from sonic_car import *
 from sensor_car import *
-
-
 class RecordingThread(threading.Thread):
     def __init__(self, sc):
         threading.Thread.__init__(self)
@@ -16,14 +14,12 @@ class RecordingThread(threading.Thread):
         date_string = datetime.datetime.now().strftime('%Y_%m_%d_%H_%M_%S_%f')
         self._file = pathlib.Path(record_folder, f'{date_string}_data.csv')
 
-
     def stop_record(self):
         self._stop_record = True
 
     def run(self):
         data_recorded = []
         while not self._stop_record:
-            # print(f'Recording')
             date_string = datetime.datetime.now().strftime('%Y-%m-%d_%H:%M:%S.%f')
             data_row = {
                 'Time': date_string,
@@ -38,7 +34,6 @@ class RecordingThread(threading.Thread):
             data_recorded.append(data_row)
             time.sleep(.1)
 
-        # print(f'Recording done')
         self._lock_file.acquire()
         header_row = list(data_recorded[0].keys())
         header_exists = self._file.exists() and self._file.stat().st_size > 0

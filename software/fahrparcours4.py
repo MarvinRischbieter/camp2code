@@ -5,29 +5,34 @@ from record import *
 US_THRESHOLD = 40
 
 def fahrparcours_4(sc):
+    '''Erkundungstour, varieren der Fahrtrichtung und der Geschwindigkeit. 
+        Bei Hindernis soll die Fahrtrichtung geändert werden, bei änderung der Fahrtrichtung
+        Maximaler Lenkwinkel und Rückwärtsfahren.
+    '''
     print("Fahrparcours 4 startet")
     t = RecordingThread(sc)
     t.start()
     
     sc.steering_angle = 90
 
-    # Threshold Ultraschall zu Distance:
     parcour = True
     while parcour:
         try:       
             drive_until_obstacle(sc)
             print("Hindernis erkennt, rangieren...")
-            # Solange zurück fahren und lenken bis Distanz erreicht ist:
+
             while sc.get_distance_to_obstacle() < US_THRESHOLD + 20:
-                sc.steering_angle = -48 # Max. Steering Angle
-                sc.drive(50, -1) # Zurück fahren
+                sc.steering_angle = -48 
+                sc.drive(50, -1) 
                 time.sleep(1)
             sc.stop()
-            sc.steering_angle = 90 # Lenkung wieder gerade
+            sc.steering_angle = 90 
+
         except KeyboardInterrupt:
-            parcour=False      
+            parcour=False     
+
     sc.stop()
-    sc.steering_angle = 90 # Lenkung wieder gerade
+    sc.steering_angle = 90 
     t.stop_record()
     t.join()
 

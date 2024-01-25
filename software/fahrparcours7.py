@@ -19,7 +19,6 @@ def follow_line_with_obstacle(ir, min_distance=5, max_distance=50, speed_min=20,
     speed = speed_max
     
     while parcour:
-        
         try:
             distance_to_obstacle = ir.get_distance_to_obstacle()
             if distance_to_obstacle <= min_distance:
@@ -27,6 +26,7 @@ def follow_line_with_obstacle(ir, min_distance=5, max_distance=50, speed_min=20,
                ir.stop()
                parcour = False
                break
+            
             if distance_to_obstacle <= max_distance or distance_to_obstacle == 1000 :
                 print("Hindernis erkannt! langsamer...")
                 speed = speed_min
@@ -38,7 +38,8 @@ def follow_line_with_obstacle(ir, min_distance=5, max_distance=50, speed_min=20,
             ir.steering_angle = ir.get_steering_angle(messung)
         except KeyboardInterrupt:
             parcour=False  
+
     ir.stop()
-    ir.steering_angle = 90 # Lenkung wieder gerade
+    ir.steering_angle = 90 
     t.stop_record()
     t.join()

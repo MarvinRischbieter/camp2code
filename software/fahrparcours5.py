@@ -24,10 +24,9 @@ def line(ir, linie_Schwellwert = -4 ):
         Return: True = Linie gefunden, Fals = keine Linie
     """
     messung = ir.get_ir_messung()
-    #print (f"kalibierte Messwerte : {messung}")
     line_found = False
+
     for i in messung :
-        #print (f"Sensorwert: {i}")
         if i <= linie_Schwellwert :
             line_found = True
     return line_found
@@ -42,7 +41,6 @@ def print_ir_value(ir):
             time.sleep(0.3)
         except KeyboardInterrupt:
             messen=False  
-
 
 def follow_line(ir, linie_Schwellwert = -4, anzahl_linien_ende = 5 ):
     """ Linie Folgen bist mehrfach(anzahl_linien_ende) keine Linie detektiert wurden 
@@ -59,27 +57,24 @@ def follow_line(ir, linie_Schwellwert = -4, anzahl_linien_ende = 5 ):
             messung = ir.get_ir_messung()
             ir.steering_angle = ir.get_steering_angle(messung)
             ir.drive(30, 1)
-            #print (f"kalibierte Messwerte : {messung}")
-            #print (f"Lenkwinkel : {ir.steering_angle}")
-                        
+
             found_line = line(ir, linie_Schwellwert)
                     
             if  not found_line:
                 no_line +=1
                 found_line = True
-                #print("keine Linie")
             else :
                 letze_Lenkwinkel = ir.steering_angle
                 no_line = 0
+
             if no_line >= anzahl_linien_ende:
                 found_line = False
-                #print("Linien Ende erreicht")
                 
         except KeyboardInterrupt:
             parcour=False  
     
     ir.stop()
-    ir.steering_angle = 90 # Lenkung wieder gerade
+    ir.steering_angle = 90 
     return letze_Lenkwinkel
 
 def fahrparcours5(ir, linie_Schwellwert = -4, anzahl_linien_ende = 5 ):
@@ -96,7 +91,6 @@ def fahrparcours5(ir, linie_Schwellwert = -4, anzahl_linien_ende = 5 ):
     
     initialisieren(ir)
     letze_Winkel = follow_line(ir, linie_Schwellwert, anzahl_linien_ende)
-    #print(f"Letze Fahrrichtung : {letze_Winkel}")
     
     t.stop_record()
     t.join()

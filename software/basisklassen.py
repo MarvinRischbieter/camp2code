@@ -8,7 +8,6 @@
     Usage: Base classes U4I/FIDA "Autonomous driving" with Sunfounder PiCar-S project phase 1
 '''
 
-
 import click
 import time
 import numpy as np
@@ -16,8 +15,6 @@ import math
 import RPi.GPIO as GPIO
 import smbus
 import json
-
-
 class Ultrasonic(object):
     """A class for the SunFounder ultrasonic modules
 

@@ -3,8 +3,6 @@ from basecar import  *
 def fahrparcours1(bc):
     """Das Auto fährt mit langsamer Geschwindigkeit 3 Sekunden geradeaus, 
        stoppt für 1 Sekunde und fährt 3 Sekunden rückwärts.
-    Args:
-        ()
     """
     print("Fahrparcours 1 startet")
     #bc = BaseCar()
