@@ -22,8 +22,16 @@ def csv_dateien_einlesen():
     return csv_dateien
 
 c = csv_dateien_einlesen()
-
+menu="[\n"
+for d in c:
+    e= f"dbc.DropdownMenuItem(\"{d}\"),\n"
+    menu = menu+e
+menu = menu+"],"
+#print(menu)
 app = Dash(external_stylesheets=[dbc.themes.DARKLY])
+dropdown_items = [dbc.DropdownMenuItem(datei) 
+                      for datei in c ]
+print (dropdown_items)
 
 #################################################################
 # Definition der cards (1: Geschwindigkeit, 2 mittlere Gesch., ...)
@@ -87,8 +95,9 @@ app.layout = html.Div(
     children=[
        
         html.H1(children='Auswertung der Fahrten'),
-        dcc.Dropdown( c, c[0], id="Dateiauswahl" ),   
-        #dbc.DropdownMenu(label="Datei Auswahl", children=c2),
+        dcc.Dropdown( c, c[0], id="Dateiauswahl", style ={'backgroundColor': "#ffffff",'color': '#660066'}  ),   
+        #dbc.DropdownMenu(label="Datei Auswahl",id="Dateiauswahl", dropdown_items),
+        #dbc.DropdownMenu(c),
         dbc.Row(
             [
             dbc.Col([card1], width="auto"),
@@ -98,7 +107,8 @@ app.layout = html.Div(
             dbc.Col([card5], width="auto"),
             ] 
         ),        
-        dcc.Graph(id='line_plot') # Graph-Komponente 
+        dcc.Graph(id='line_plot'), # Graph Basis
+        dcc.Graph(id='line_plot_dist') # Graph-Komponente 
     ]
 )
 
@@ -143,6 +153,14 @@ def graph_update(value_of_input_component):
     fig = px.line(df, x='Time', y=['Speed','Angle','Direction',])
     
     return fig,v_max,v_mid,v_min,v_time,v_dist
+
+@app.callback(Output(component_id='line_plot_dist', component_property='figure'),
+              Input(component_id='Dateiauswahl', component_property='value'))
+def graph_update(value_of_input_component):
+    df= pd.read_csv(value_of_input_component,';')  # Dataframe aus der CSV erstellen
+    fig2 = px.line(df, x='Time', y=['Distance',])
+    return fig2
+
 
 if __name__ == '__main__':
     app.run_server(debug=True)
