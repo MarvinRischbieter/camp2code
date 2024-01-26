@@ -133,8 +133,8 @@ class BaseCar(object):
         else:
             value_n = direction
         self._direction = value_n
-        print(f"Drehrichtung: {self.direction}-{Direction(self.direction).name}")
-        print(f"Speed: {self.speed}")
+        #print(f"Drehrichtung: {self.direction}-{Direction(self.direction).name}")
+        #print(f"Speed: {self.speed}")
         if self.direction == Direction.FORWARD.value:
             self.bw.forward()
         elif self.direction == Direction.BACKWARD.value:

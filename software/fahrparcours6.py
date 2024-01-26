@@ -22,7 +22,7 @@ def back(ir, linie_Schwellwert =-4):
         print("Fahre Rückwärts")
         ir.steering_angle = 90
         ir.drive(30, -1)
-        found_line = line(ir, linie_Schwellwert)
+        found_line = measure_and_line(ir, linie_Schwellwert)
         #time.sleep(0.1)
         winkel = ir.get_steering_angle(ir.get_ir_messung())    
         count_iterations += 1
@@ -67,7 +67,7 @@ def back_forward(ir, linie_Schwellwert = -4, direction =1) :
         time.sleep(0.3)
         ir.stop()
         time.sleep(0.1)
-        line_found = line(ir,linie_Schwellwert)
+        line_found = measure_and_line(ir,linie_Schwellwert)
         iterations +=1
 
     if iterations > 100 : 
@@ -92,16 +92,16 @@ def follow_line_complex(ir, linie_Schwellwert = -4, anzahl_linien_ende = 5 ):
     while parcour:
         try: 
             letze_Winkel = follow_line(ir, linie_Schwellwert, anzahl_linien_ende)
-            print(f"Letze Fahrrichtung : {letze_Winkel}")    
+            #print(f"Letze Fahrrichtung : {letze_Winkel}")    
             #back(ir, linie_Schwellwert =-4)
-            print(f"Letze Fahrrichtung nach Rückwärtsfahrt : {letze_Winkel}")  
-            if letze_Winkel < 85 :
+            if letze_Winkel < 87 :
                 print(f"Linie verloren. Kurve nach Links. Letze Winkel: {letze_Winkel}")
                 parcour = back_forward(ir, linie_Schwellwert, direction = -1)   
-            elif letze_Winkel > 95 :
+            elif letze_Winkel > 93 :
                 print(f"Linie verloren. Kurve nach rechts. Letze Winkel: {letze_Winkel}")
                 parcour = back_forward(ir, linie_Schwellwert, direction = 1)
-            else :            
+            else :          
+                print(f"Linie ende. s Letze Winkel: {letze_Winkel}")  
                 parcour=False   
         except KeyboardInterrupt:
             parcour=False  

@@ -18,7 +18,7 @@ def initialisieren(ir):
     p= input("Bitte Fzg auf die Linien setzen und Taste drücken") 
 
 
-def line(ir, linie_Schwellwert = -4 ):
+def measure_and_line(ir, linie_Schwellwert = -4 ):
     """
     Führt eine IR Messung durch und prüft anhand des Schwellwerts ob eine Linie vorhanden ist
     
@@ -29,6 +29,21 @@ def line(ir, linie_Schwellwert = -4 ):
     messung = ir.get_ir_messung()
     line_found = False
 
+    for i in messung :
+        if i <= linie_Schwellwert :
+            line_found = True
+    return line_found
+
+
+def line(messung, linie_Schwellwert = -4 ):
+    """
+    prüft auf Basise einer vorhandenen Messung, ob anhand des Schwellwerts eine Linie vorhanden ist
+    
+    @input ir: messung
+    @input linie_Schwellwert: Schwellwert (default=-4)
+    @output: True = Linie gefunden, False = keine Linie
+    """
+    line_found = False
     for i in messung :
         if i <= linie_Schwellwert :
             line_found = True
@@ -67,11 +82,18 @@ def follow_line(ir, linie_Schwellwert = -4, anzahl_linien_ende = 5 ):
     while parcour and found_line:
         try: 
             messung = ir.get_ir_messung()
-            ir.steering_angle = ir.get_steering_angle(messung)
+            print(f"IR Messung :{messung}")
+            found_line = line(messung,linie_Schwellwert)
+            
+            # Winkel wird nur gesetzt wenn eine linie gefunden wurde. Sonst gerade aus
+            if found_line :
+                ir.steering_angle = ir.get_steering_angle(messung)
+            else:
+                ir.steering_angle = 90
+                
             ir.drive(30, 1)
-
-            found_line = line(ir, linie_Schwellwert)
-                    
+            
+            # Hochzähle oder Rücksezten der Anzahl an nicht gefundenen Linien        
             if  not found_line:
                 no_line +=1
                 found_line = True
