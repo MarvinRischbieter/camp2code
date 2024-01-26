@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Fahrparcours 3 &#8212; Raspberry PiCar 0.1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=12dfc556" />
+    <script src="_static/documentation_options.js?v=01f34227"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="fahrparcours-3">
+<h1>Fahrparcours 3<a class="headerlink" href="#fahrparcours-3" title="Link to this heading">¶</a></h1>
+<p>Hier ist der Inhalt deiner Beschreibung oder Anleitung für den Fahrparcours 1.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">basecar</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sonic_car</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">record</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="k">def</span> <span class="nf">drive_until_obstacle</span><span class="p">(</span><span class="n">sc</span><span class="p">,</span> <span class="n">min_distance</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">max_distance</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">speed_min</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">speed_max</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;Drive Until an Obstacle is spotted by the SonicCar Sensor</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        sc: SonicCar object.</span>
+<span class="sd">        min_distance: Minimum distance to the obstacle for stopping (default is 20).</span>
+<span class="sd">        max_distance: Maximum distance for reduced speed (default is 50).</span>
+<span class="sd">        speed_min: Minimum speed when obstacle is close (default is 20).</span>
+<span class="sd">        speed_max: Maximum speed when no obstacles are nearby (default is 50).</span>
+<span class="sd">        direction: Direction of movement (-1 for backward, 0 for idle, 1 for forward) (default is 1).</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Recording start&quot;</span><span class="p">)</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">RecordingThread</span><span class="p">(</span><span class="n">sc</span><span class="p">)</span>
+    <span class="n">t</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">sc</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sc</span><span class="p">,</span> <span class="n">SonicCar</span><span class="p">)</span> <span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;true&quot;</span><span class="p">)</span>
+
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">distance_to_obstacle</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">get_distance_to_obstacle</span><span class="p">()</span>
+        <span class="nb">print</span> <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Distanz:</span><span class="si">{</span><span class="n">distance_to_obstacle</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">distance_to_obstacle</span> <span class="o">&lt;=</span> <span class="n">min_distance</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Hindernis erkannt! Stopping...&quot;</span><span class="p">)</span>
+            <span class="n">sc</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+            <span class="k">break</span>
+
+        <span class="k">if</span> <span class="n">distance_to_obstacle</span> <span class="o">&lt;=</span> <span class="n">max_distance</span> <span class="ow">or</span> <span class="n">distance_to_obstacle</span> <span class="o">==</span> <span class="mi">1000</span> <span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Hindernis erkannt! langsamer...&quot;</span><span class="p">)</span>
+            <span class="n">sc</span><span class="o">.</span><span class="n">steering_angle</span> <span class="o">=</span> <span class="mi">90</span>
+            <span class="n">sc</span><span class="o">.</span><span class="n">drive</span><span class="p">(</span><span class="n">speed_min</span><span class="p">,</span> <span class="n">direction</span><span class="p">)</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+            <span class="k">continue</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">sc</span><span class="o">.</span><span class="n">steering_angle</span> <span class="o">=</span> <span class="mi">90</span>
+            <span class="n">sc</span><span class="o">.</span><span class="n">drive</span><span class="p">(</span><span class="n">speed_max</span><span class="p">,</span> <span class="n">direction</span><span class="p">)</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+
+    <span class="nb">print</span> <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Recording stop&quot;</span><span class="p">)</span>
+    <span class="n">t</span><span class="o">.</span><span class="n">stop_record</span><span class="p">()</span>
+    <span class="n">t</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Raspberry PiCar</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2024, Malte, W. Tobias, W. Marvin, R. Eric, W..
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 7.2.6</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+      |
+      <a href="_sources/fahrparcours3.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
