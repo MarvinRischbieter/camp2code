@@ -2,10 +2,11 @@ from sensor_car import  *
 from record import *
 
 def initialisieren(ir):
-    """ Initialisieren der IR Sensoren
-        Args:
-            (Sensor Car)
-        Return: keine Rückgabe 
+    """
+    Initialisieren der IR Sensoren
+    
+    @input ir: Sensor Car
+    @output: Keine Rückgabe
     """
     ir.ir_calibriation()
     messung = ir.get_ir_messung()
@@ -18,10 +19,12 @@ def initialisieren(ir):
 
 
 def line(ir, linie_Schwellwert = -4 ):
-    """ Führt eine IR Messung durch und prüft anhand des Schwellwerts ob eine Linie vorhanden ist
-        Args:
-            (Sensor Car, Schwellwert)
-        Return: True = Linie gefunden, Fals = keine Linie
+    """
+    Führt eine IR Messung durch und prüft anhand des Schwellwerts ob eine Linie vorhanden ist
+    
+    @input ir: Sensor Car
+    @input linie_Schwellwert: Schwellwert (default=-4)
+    @output: True = Linie gefunden, False = keine Linie
     """
     messung = ir.get_ir_messung()
     line_found = False
@@ -33,6 +36,12 @@ def line(ir, linie_Schwellwert = -4 ):
 
 
 def print_ir_value(ir):
+    """
+    Gibt kalibrierte Messwerte der IR Sensoren aus
+    
+    @input ir: Sensor Car
+    @output: Keine Rückgabe
+    """
     messen = True
     while messen :
         try:
@@ -43,11 +52,14 @@ def print_ir_value(ir):
             messen=False  
 
 def follow_line(ir, linie_Schwellwert = -4, anzahl_linien_ende = 5 ):
-    """ Linie Folgen bist mehrfach(anzahl_linien_ende) keine Linie detektiert wurden 
-        Args:
-            (Sensor Car, Schwellwert Linie, Anzahl der Messung ohne Linienerkennung)
-        Return: Der letze lenkwinkel bei dem noch ein Linie detektiert wurde
-    """      
+    """
+    Linie folgen bis mehrfach (anzahl_linien_ende) keine Linie detektiert wurde
+    
+    @input ir: Sensor Car
+    @input linie_Schwellwert: Schwellwert Linie (default=-4)
+    @input anzahl_linien_ende: Anzahl der Messung ohne Linienerkennung (default=5)
+    @output: Der letzte Lenkwinkel bei dem noch eine Linie detektiert wurde
+    """    
     parcour = True
     found_line = True
     no_line = 0
@@ -78,14 +90,17 @@ def follow_line(ir, linie_Schwellwert = -4, anzahl_linien_ende = 5 ):
     return letze_Lenkwinkel
 
 def fahrparcours5(ir, linie_Schwellwert = -4, anzahl_linien_ende = 5 ):
-    """ Folgen einer etwas 1,5 bis 2 cm breiten Linie auf
-        dem Boden. Das Auto soll stoppen, sobald das Auto das Ende der Linie erreicht hat. Als
-        Test soll eine Linie genutzt werden, die sowohl eine Rechts‑ als auch eine Linkskurve
-        macht. Die Kurvenradien sollen deutlich größer sein als der maximale Radius, den das
-        Auto ohne ausgleichende Fahrmanöver fahren kann.
-        Args:
-            (Sensor Car, Schwellwert Linie, Anzahl der Messung ohne Linienerkennung)
-    """      
+    """
+    Folgen einer etwa 1,5 bis 2 cm breiten Linie auf dem Boden. Das Auto soll stoppen,
+    sobald das Auto das Ende der Linie erreicht hat. Als Test soll eine Linie genutzt werden,
+    die sowohl eine Rechts‑ als auch eine Linkskurve macht. Die Kurvenradien sollen deutlich
+    größer sein als der maximale Radius, den das Auto ohne ausgleichende Fahrmanöver fahren kann.
+    
+    @input ir: Sensor Car
+    @input linie_Schwellwert: Schwellwert Linie (default=-4)
+    @input anzahl_linien_ende: Anzahl der Messung ohne Linienerkennung (default=5)
+    @output: Keine Rückgabe
+    """    
     t = RecordingThread(ir)
     t.start()
     

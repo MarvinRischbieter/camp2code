@@ -2,7 +2,16 @@ from sensor_car import  *
 from record import *
 
 def follow_line_with_obstacle(ir, min_distance=5, max_distance=50, speed_min=20, speed_max=30 ):
+    """
+    Folgt einer Linie und stoppt bei Hindernissen.
     
+    @input ir: Sensor Car
+    @input min_distance: Minimale Distanz zum Hindernis (default=5)
+    @input max_distance: Maximale Distanz zum Hindernis (default=50)
+    @input speed_min: Minimale Geschwindigkeit (default=20)
+    @input speed_max: Maximale Geschwindigkeit (default=30)
+    @output: Keine Rückgabe
+    """   
     t = RecordingThread(ir)
     t.start()
     

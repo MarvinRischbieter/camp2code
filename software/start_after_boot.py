@@ -1,6 +1,3 @@
-#coding=utf-8
-#!/usr/bin/env python
-
 import os
 """
 Dieses Programm starte ein Kommando mittels des Standard-Modul 'os'.

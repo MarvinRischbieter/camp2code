@@ -3,14 +3,19 @@ from fahrparcours5 import  *
 from record import *
 
 def back(ir, linie_Schwellwert =-4):
-    """back fährt Rückwärts bis der Linien schwellwert erreicht ist
-        Args:
-            (Sensor Car, Linien Schwellwert)
-        Return: Steuerwinkel oder wenn keine Linie gefunden wurde 90 Grad 
+    """
+    back fährt rückwärts bis der Linien schwellwert erreicht ist.
+
+    @input ir: Sensor Car
+    @input linie_Schwellwert: Linien Schwellwert (default=-4)
+
+    @output: Steuerwinkel oder wenn keine Linie gefunden wurde 90 Grad
     """
     print(f"Linie verloren. Rückwärts fahren bis zur Linie")
+
     found_line = False
     count_iterations = 0
+
     while not found_line:
         if count_iterations > 100 :
             found_line = True
@@ -23,16 +28,21 @@ def back(ir, linie_Schwellwert =-4):
         count_iterations += 1
         
     ir.stop()
+
     if count_iterations > 100 :
         return 90
     else :
         return winkel          
     
 def back_forward(ir, linie_Schwellwert = -4, direction =1) :
-    """back_forward fährt vorwärts und Rückwärts mit entsprechenden Lenkwinkel 
-        Args:
-            (Sensor Car, Linien Schwellwert, kurvenrichtung (-1 = links, 1 = rechts))
-        Return: True = linie gefunden, False = keine Linie
+    """
+    back_forward fährt vorwärts und rückwärts mit entsprechenden Lenkwinkel
+
+    @input ir: Sensor Car
+    @input linie_Schwellwert: Linien Schwellwert (default=-4)
+    @input direction: Kurvenrichtung (-1 = links, 1 = rechts)
+
+    @output: True = linie gefunden, False = keine Linie
     """
     if direction == -1 :
         kurve1 = ir.max_steer_angle_right
@@ -43,6 +53,7 @@ def back_forward(ir, linie_Schwellwert = -4, direction =1) :
     
     line_found = False
     iterations = 0
+
     while not line_found :
         if iterations > 100 : 
             line_found = True
@@ -58,22 +69,24 @@ def back_forward(ir, linie_Schwellwert = -4, direction =1) :
         time.sleep(0.1)
         line_found = line(ir,linie_Schwellwert)
         iterations +=1
+
     if iterations > 100 : 
         return False
     else :
         return True
             
-        
-
 def follow_line_complex(ir, linie_Schwellwert = -4, anzahl_linien_ende = 5 ):
-    """folgt der line bis keine linie mehr detektiert werden kann. 
-       Wenn der letze Lenkwinkel in dem Bereich 95-85 Grad liegt wird das als Linienende interpretiert und abgebrochen.
-       Wenn ein eindeutiger letzer Lenkwinkel identifizierbar ist wird mit der Routine back_forward die entsprechende Kurve gefahren
-        Args:
-            (Sensor Car, Linien Schwellwert, Anzahl der IR Messunung ohne Line )
-        Return: kein Rückgabe wert
     """
-    print("follwow line complex ausführen")        
+    Folgt der Linie bis keine Linie mehr detektiert werden kann.
+    Wenn der letzte Lenkwinkel in dem Bereich 95-85 Grad liegt, wird das als Linienende interpretiert und abgebrochen.
+    Wenn ein eindeutiger letzter Lenkwinkel identifizierbar ist, wird mit der Routine back_forward die entsprechende Kurve gefahren.
+
+    @input ir: Sensor Car
+    @input linie_Schwellwert: Linien Schwellwert (default=-4)
+    @input anzahl_linien_ende: Anzahl der IR Messungen ohne Linie (default=5)
+    """
+    print("follwow line complex ausführen")    
+
     parcour = True
   
     while parcour:
@@ -93,13 +106,14 @@ def follow_line_complex(ir, linie_Schwellwert = -4, anzahl_linien_ende = 5 ):
         except KeyboardInterrupt:
             parcour=False  
             
- 
 def fahrparcours6(ir, linie_Schwellwert = -4, anzahl_linien_ende = 5 ):
-    """Folgen eine Linie, die sowohl eine Rechts‑ als auch eine Linkskurve macht mit 
-        Kurvenradien kleiner als der maximale Lenkwinkel.
-        Args:
-            (Sensor Car, Linien Schwellwert, Anzahl der IR Messunung ohne Line )
-        Return: kein Rückgabe wert
+    """
+    Folgen einer Linie, die sowohl eine Rechts- als auch eine Linkskurve macht mit
+    Kurvenradien kleiner als der maximale Lenkwinkel.
+
+    @input ir: Sensor Car
+    @input linie_Schwellwert: Linien Schwellwert (default=-4)
+    @input anzahl_linien_ende: Anzahl der IR Messungen ohne Linie (default=5)
     """
     t = RecordingThread(ir)
     t.start()
@@ -108,7 +122,7 @@ def fahrparcours6(ir, linie_Schwellwert = -4, anzahl_linien_ende = 5 ):
     follow_line_complex(ir, linie_Schwellwert, anzahl_linien_ende)
     
     ir.stop()
-    ir.steering_angle = 90 # Lenkung wieder gerade
+    ir.steering_angle = 90 
     t.stop_record()
     t.join()
             

@@ -9,16 +9,13 @@ from fahrparcours4 import *
 from fahrparcours5 import *
 from fahrparcours6 import *
 from fahrparcours7 import *
-import os
-import traceback
 import time
 
 def main():
-    """Function for testing the base classes
+    """
+    Run the selected test program based on the user's choice.
 
-
-    Args:
-        modus (int): The mode that can be choosen by the user
+    @inoput: program_choice (int): The chosen test program number.
     """
     ausführen=True
     while ausführen:
@@ -79,6 +76,5 @@ def main():
                 time.sleep(2)
                 ausführen=False
 
-    
 if __name__ == '__main__':
     main()

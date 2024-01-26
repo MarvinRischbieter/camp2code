@@ -7,9 +7,13 @@ def drive_until_obstacle(sc, min_distance=20, max_distance=50, speed_min=20, spe
     '''Drive Until an Obstacle is spotted by the SonicCar Sensor
 
     Args:
-        (max_distance(integer), speed(integer), direction = -1 Rückwerts 0 leerlauf 1 vorwärts) 
+        sc: SonicCar object.
+        min_distance: Minimum distance to the obstacle for stopping (default is 20).
+        max_distance: Maximum distance for reduced speed (default is 50).
+        speed_min: Minimum speed when obstacle is close (default is 20).
+        speed_max: Maximum speed when no obstacles are nearby (default is 50).
+        direction: Direction of movement (-1 for backward, 0 for idle, 1 for forward) (default is 1).
     '''
-
     print (f"Recording start")
     t = RecordingThread(sc)
     t.start()
