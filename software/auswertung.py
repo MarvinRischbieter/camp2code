@@ -118,10 +118,9 @@ app.layout = html.Div(
               Input(component_id='Dateiauswahl', component_property='value'),
               Input(component_id='fahrdaten', component_property='value'),)
 def graph_update(value_of_input_component,fahrdaten):
-    #print(value_of_input_component)
-    #print(fahrdaten)
+
     df= pd.read_csv(value_of_input_component,';')  # Dataframe aus der CSV erstellen
-    
+    # Datafram um die Spalte Time ergänzen (ohne Datum und Millisekunden)
     Timestamp= df["Time"]
     Time = []
     for t in Timestamp:
@@ -129,6 +128,46 @@ def graph_update(value_of_input_component,fahrdaten):
     Timeseries = pd.Series(Time) 
     df["Time2"] = Timeseries
     
+    ################################################################
+    # Wenn die Datei IR Values enthält. wird der Dataframe um 
+    # min, max, Mittelwert und Index des kleinsten Ir Werts ergänst
+    if "IR Value" in df :
+        # listen für den Ir Werte initialisieren
+        ir_min = []  
+        ir_max = []
+        ir_mid = []
+        ir_index =[]
+ 
+        Infra = df["IR Value"]         # series mit den Ir Werten
+        min = 100
+        mid = -100
+        max = 0
+        
+        for p in Infra:        # schleife über die Infrarotwerte 
+            p1=list(p.replace("[","").replace("]","").split(","))       # String mit den IR werten in eine Liste wandeln
+            p2=list(map(float,p1))                                      # Werte der Liste in floats mapen
+            
+            for f in p2:          # schleife über die Werte der 5 Sensoren
+                if f < min: min = f
+                if f > max: max = f
+                mid = mid+f
+            # Ir werte anhängen 
+            ir_min.append(min)  
+            ir_max.append(max)
+            ir_mid.append(mid)
+            ir_index.append(p2.index(min))
+            # rücksetzen der werte 
+            min = 100   
+            max = -100
+            mid = 0
+        
+        # Datafram um die IR Werte ergänzen    
+        df["IR-Min"] = ir_min
+        df["IR-Max"] = ir_max
+        df["IR-Mid"] = ir_mid
+        df["IR-Index"] = ir_index
+
+    # Extremwerte der Fahrt ermitteln
     mid = df["Speed"].mean()
     max = df["Speed"].max()
     min = df["Speed"].min()
@@ -154,7 +193,12 @@ def graph_update(value_of_input_component,fahrdaten):
     # Gesamtdistanz und Fahzeit ermitteln
     v_dist = f"{d2} cm"
     v_time = f"{time_dif.total_seconds()} sec."   
-    fig = px.line(df, x='Time2', y=[fahrdaten])
+    if "IR Value" not in df and fahrdaten =="Infra":
+        fig = px.line(df, x='Time2', y=["Speed"])
+    elif "IR Value" in df and fahrdaten =="Infra":
+        fig = px.line(df, x='Time2', y=['IR-Min', 'IR-Max','IR-Index'])
+    else:
+        fig = px.line(df, x='Time2', y=[fahrdaten])
     
     return fig,v_max,v_mid,v_min,v_time,v_dist
 '''
